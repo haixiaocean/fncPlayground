@@ -79,9 +79,9 @@ for sim in cosineSim:
         cosineSimRelated.append(sim[0])
 
 
-plt.plot(cosineSimRelated)
+plt.hist(cosineSimRelated)
 plt.show()
 
-plt.plot(cosineSimUnrelated)
+plt.hist(cosineSimUnrelated)
 plt.show()
 
