@@ -80,10 +80,10 @@ for sim in cosineSim:
 
 
 plt.hist(cosineSimRelated)
-plt.ylabel("Histogram for cosine similarities for related articles")
+plt.xlabel("Cosine similarities histogram for related articles")
 plt.savefig('plots/histCosineRelated.png')
 
 plt.hist(cosineSimUnrelated)
-plt.ylabel("Histogram for cosine similarities for unrelated articles")
+plt.xlabel("Cosine similarities histogram comparing both related and unrelated articles")
 plt.savefig('plots/histCosineUnrelated.png')
 
