@@ -63,8 +63,12 @@ for i in range(0,len(TrainStances)):
 
 sim = similarities.docsim.MatrixSimilarity(FncTfidf)
 
+#stance to body similarities
+
+Stance2BodySim = [sim.get_similarities(stancetf) for stancetf in stanceTfidf]
+
 #compute cosine similarity for the milist
-cosineSim = [[sim[stanceTfidf[lst[0]]][bodyDictString[lst[1]]] , lst[2]] for lst in miniList]
+cosineSim = [[Stance2BodySim[lst[0]][bodyDictString[lst[1]]] , lst[2]] for lst in miniList]
 
 #plot the histograms for cosine similarities
 
