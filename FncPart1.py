@@ -6,6 +6,28 @@ import re
 import matplotlib.pyplot as plt
 from nltk.stem import WordNetLemmatizer
 
+LABELS = ['agree', 'disagree', 'discuss', 'unrelated']
+RELATED = LABELS[0:3]
+
+def getF1(gLabels,tLabels):
+	return (f1_score(gLabels,tLabels))
+
+#get the values for f1 score for related and unrelated articles
+def getCosineThreshold(cosineSimMatrix,val):
+	generateLabelsonThreshold = []
+	generateOrigLabels = []
+
+	for cosineDist, label in cosineSimMatrix:
+		if cosineDist > val:
+			generateLabelsonThreshold.append(1)
+		else:
+			generateLabelsonThreshold.append(0)
+		if label in RELATED:
+			generateOrigLabels.append(1)
+		else:
+			generateOrigLabels.append(0)
+
+	return getF1(generateLabelsonThreshold,generateOrigLabels)
 
 #read the stances and body
 
@@ -92,5 +114,16 @@ plt.savefig('plots/histCosineRelated.png')
 
 plt.hist(cosineSimUnrelated)
 plt.xlabel("Cosine similarities histogram comparing both related and unrelated articles")
-plt.savefig('plots/histCosineUnrelated.png')
+plt.savefig('plots/histCosineBoth.png')
 
+
+#plot cosine threshold and f1 score
+cosineThreshold = np.arange(0.0,1.0,0.01)
+Y = [getCosineThreshold(cosineSim,a) for a in cosineThreshold]
+plt.plot(cosineThreshold,Y)
+plt.ylabel("F1 score on related/unrelated")
+plt.xlabel("cosine threshold value")
+plt.savefig('plots/f1Scores.png')
+
+print ("Highest f1 score:" + str(np.max(Y)) + " for cosine threshold value of:"  + str(cosineThreshold[np.argmax(Y)]))
+	
