@@ -5,6 +5,7 @@ from gensim import corpora, models, similarities
 import re
 import matplotlib.pyplot as plt
 from nltk.stem import WordNetLemmatizer
+from sklearn.metrics import f1_score
 
 LABELS = ['agree', 'disagree', 'discuss', 'unrelated']
 RELATED = LABELS[0:3]
@@ -46,7 +47,8 @@ bodyText = np.array(bodyText)
 bodyIds = np.array(bodyIds)
 
 bodyText = [line.lower().split() for line in bodyText]
-bodyText = [[lemmatizer.lemmatize(re.sub('[^a-zA-Z0-9]', '',word)) for word in text if word not in stop] for text in bodyText]
+#bodyText = [[lemmatizer.lemmatize(re.sub('[^a-zA-Z0-9]', '',word)) for word in text if word not in stop] for text in bodyText]
+bodyText = [[(re.sub('[^a-zA-Z0-9]', '',word)) for word in text if word not in stop] for text in bodyText]
 #create the dictionary for article bodies
 
 bodyDict = dict(zip(bodyIds,bodyText))
@@ -64,7 +66,8 @@ bodyDictString = dict(zip(bodyDict.keys(),range(0,len(bodyDict.values()))))
 
 sents = TrainStances['Headline']
 sents = [sent.lower().split() for sent in sents]
-sents = [[lemmatizer.lemmatize(re.sub('[^a-zA-Z0-9]', '', w)) for w in sent if w not in stop] for sent in sents]
+#sents = [[lemmatizer.lemmatize(re.sub('[^a-zA-Z0-9]', '', w)) for w in sent if w not in stop] for sent in sents]
+sents = [[(re.sub('[^a-zA-Z0-9]', '', w)) for w in sent if w not in stop] for sent in sents]
 
 stanceDict = dict(zip(range(0,len(np.unique(sents))),np.unique(sents)))
 #also define the reverse stance dictionary
